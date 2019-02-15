@@ -18,10 +18,10 @@ public class AController {
 
 
     @RequestMapping("/info")
-    public ResponseEntity<String> info(){
+    public ResponseEntity<String> info() throws InterruptedException {
 
+        Thread.sleep(20000l);
         System.out.println("AController===================info======================");
-
         bServerApi.info();
         return ResponseEntity.ok("ok");
     }
