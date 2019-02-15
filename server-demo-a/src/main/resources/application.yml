@@ -3,13 +3,6 @@ server:
 info:
   version: 1.0.1
   isGray: true
-spring:
-  application:
-    name: demo-a
-  cloud:
-    nacos:
-      discovery:
-        server-addr: 127.0.0.1:8848
 #eureka:
 #  client:
 #    serviceUrl:

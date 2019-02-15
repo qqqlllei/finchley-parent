@@ -48,6 +48,14 @@
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>spring.cloud.finchley</groupId>
+            <artifactId>gray-gateway</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+
+
     </dependencies>
 
 
