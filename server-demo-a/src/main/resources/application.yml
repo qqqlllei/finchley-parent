@@ -1,13 +1,10 @@
 server:
   port: 8081
 info:
-  version: 1.0.1
+  version: @version@
   isGray: true
-#eureka:
-#  client:
-#    serviceUrl:
-#      defaultZone: http://localhost:8761/eureka/
-#  instance:
-#    metadata-map:
-#      version: ${info.version}
-#      isGray: ${info.isGray}
+spring:
+  cloud:
+    nacos:
+      discovery:
+        metadata: {"version":@version@}
