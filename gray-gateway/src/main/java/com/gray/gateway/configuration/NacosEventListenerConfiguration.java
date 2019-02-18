@@ -33,6 +33,7 @@ public class NacosEventListenerConfiguration {
 
     private static final String SERVER_VERSION_CACHE_NAME="version";
 
+
     @Value("${spring.application.name}")
     private String currentApplicationName;
 
