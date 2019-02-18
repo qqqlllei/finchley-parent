@@ -1,14 +1,23 @@
 package com.gray.gateway.rule;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.alibaba.nacos.api.config.ConfigService;
 import com.alibaba.nacos.api.exception.NacosException;
 import com.google.common.base.Optional;
 import com.netflix.loadbalancer.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.alibaba.nacos.NacosConfigProperties;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class GrayMetadataRule extends PredicateBasedRule {
+
+	@Value("${spring.application.name}")
+	private String currentApplicationName;
 
 	@Autowired
 	private NacosConfigProperties nacosConfigProperties;
@@ -29,8 +38,13 @@ public class GrayMetadataRule extends PredicateBasedRule {
 
 		try {
 			ConfigService configService = nacosConfigProperties.configServiceInstance();
-			String versions = configService.getConfig("auth-server-version-1.0.1","DEFAULT_GROUP",2000l);
+			String versionsString = configService.getConfig(currentApplicationName+"-version-1.0.1.json","DEFAULT_GROUP",2000l);
+			JSONObject servers = JSONObject.parseObject(versionsString);
+			JSONArray versions = servers.getJSONArray(loadBalancer.getName());
+
 			System.out.println(versions);
+
+
 		} catch (NacosException e) {
 			e.printStackTrace();
 		}
