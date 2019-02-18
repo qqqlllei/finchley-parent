@@ -1,6 +1,4 @@
 server.port: 8082
-
-
 # 配置输出日志
 logging:
   level:
@@ -19,8 +17,3 @@ management:
     enabled: false
 info:
   version: 1.0.1
-
-#eureka:
-#  client:
-#    service-url:
-#      defaultZone: http://localhost:8761/eureka/
