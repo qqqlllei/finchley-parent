@@ -57,7 +57,7 @@ public class GrayMetadataRule extends PredicateBasedRule {
 		if(servers==null) {
 			try {
 				ConfigService configService = nacosConfigProperties.configServiceInstance();
-				String versionsString = configService.getConfig(currentApplicationName+"-version-1.0.1.json","DEFAULT_GROUP",2000l);
+				String versionsString = configService.getConfig(DATA_ID,"DEFAULT_GROUP",2000l);
 				servers = JSONObject.parseObject(versionsString);
 			} catch (NacosException e) {
 				e.printStackTrace();
