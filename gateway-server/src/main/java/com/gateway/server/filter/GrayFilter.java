@@ -20,21 +20,20 @@ import java.util.Map;
 @Component
 public class GrayFilter implements GlobalFilter,Ordered{
 
-
-    public static final String META_DATA_KEY_VERSION = "version";
+    private static final String GATEWAY_GRAY_VERSION_NAME="gatewayGrayVersion";
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
 
-        String version = exchange.getRequest().getQueryParams().getFirst(META_DATA_KEY_VERSION);
+        String version = exchange.getRequest().getQueryParams().getFirst(GATEWAY_GRAY_VERSION_NAME);
         if(StringUtils.isBlank(version)){
-            version = exchange.getRequest().getHeaders().getFirst(META_DATA_KEY_VERSION);
+            version = exchange.getRequest().getHeaders().getFirst(GATEWAY_GRAY_VERSION_NAME);
         }
         Map<String,String> threalLocalItem = new HashMap<>();
-        threalLocalItem.put(META_DATA_KEY_VERSION,version);
+        threalLocalItem.put(GATEWAY_GRAY_VERSION_NAME,version);
         ThreadLocalContext.set(threalLocalItem);
 
 
-        ServerHttpRequest host = exchange.getRequest().mutate().header(META_DATA_KEY_VERSION, version).build();
+        ServerHttpRequest host = exchange.getRequest().mutate().header(GATEWAY_GRAY_VERSION_NAME, version).build();
         return chain.filter(exchange.mutate().request(host).build()).then(Mono.fromRunnable( () -> ThreadLocalContext.clear()));
     }
 

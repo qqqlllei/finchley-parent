@@ -1,5 +1,6 @@
 package com.gray.gateway.configuration;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.nacos.api.config.ConfigService;
 import com.alibaba.nacos.api.config.listener.AbstractListener;
@@ -40,31 +41,51 @@ public class NacosEventListenerConfiguration {
     @Value("${info.version}")
     private String currentApplicationVersion;
 
-    private String DATA_ID ;
+
 
 
     @PostConstruct
     public void init() throws NacosException {
 
-        DATA_ID = currentApplicationName+"-version-"+currentApplicationVersion+".json";
+        String dateId  = currentApplicationName+"-version-"+currentApplicationVersion+".json";
+        initNacosInfoAndListener(dateId);
+
+
+        if("gateway-server".equals(currentApplicationName)){
+            ConfigService configService = nacosConfigProperties.configServiceInstance();
+            String gatewayVersionsJson = configService.getConfig("gateway-server-version-parent.json",DEFAULT_GROUP,500L);
+            if(gatewayVersionsJson ==null || StringUtils.isBlank(gatewayVersionsJson)) {
+                throw new NacosException(1000,"gatewayVersions is missing");
+            }
+
+            JSONArray list = JSONArray.parseArray(gatewayVersionsJson);
+            for (int i=0;i<list.size();i++){
+                String version = (String) list.get(i);
+                initNacosInfoAndListener(currentApplicationName+"-version-"+version+".json");
+            }
+
+        }
+
+    }
+
+
+    private void initNacosInfoAndListener(String dataId) throws NacosException {
         ConfigService configService = nacosConfigProperties.configServiceInstance();
-        String versionsString = configService.getConfig(DATA_ID,DEFAULT_GROUP,2000l);
+        String versionsString = configService.getConfig(dataId,DEFAULT_GROUP,2000l);
         if(versionsString ==null || StringUtils.isBlank(versionsString)) {
             throw new NacosException(1000,"server version is missing");
         }
         Cache cache = ehCacheCacheManager.getCache(SERVER_VERSION_CACHE_NAME);
-        cache.put(DATA_ID, JSONObject.parseObject(versionsString));
+        cache.put(dataId, JSONObject.parseObject(versionsString));
 
-
-        configService.addListener(DATA_ID, DEFAULT_GROUP, new AbstractListener() {
+        configService.addListener(dataId, DEFAULT_GROUP, new AbstractListener() {
             @Override
             public void receiveConfigInfo(String configInfo) {
                 Cache cache = ehCacheCacheManager.getCache(SERVER_VERSION_CACHE_NAME);
-                cache.put(DATA_ID, JSONObject.parseObject(configInfo));
-                logger.info("Listening on NacosConfigChange Event - dateId="+DATA_ID+"-group="+DEFAULT_GROUP+"-configInfo="+configInfo );
+                cache.put(dataId, JSONObject.parseObject(configInfo));
+                logger.info("Listening on NacosConfigChange Event - dateId="+dataId+"-group="+DEFAULT_GROUP+"-configInfo="+configInfo );
             }
         });
-
     }
 
 
