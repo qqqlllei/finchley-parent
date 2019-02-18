@@ -4,7 +4,9 @@ import com.alibaba.fastjson.JSONObject;
 import com.alibaba.nacos.api.config.ConfigService;
 import com.alibaba.nacos.api.exception.NacosException;
 import com.google.common.base.Optional;
+import com.gray.gateway.util.ThreadLocalContext;
 import com.netflix.loadbalancer.*;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.Cache;
@@ -15,6 +17,7 @@ import org.springframework.cloud.alibaba.nacos.ribbon.NacosServer;
 import javax.annotation.PostConstruct;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 public class GrayMetadataRule extends PredicateBasedRule {
 
@@ -53,6 +56,20 @@ public class GrayMetadataRule extends PredicateBasedRule {
 		BaseLoadBalancer loadBalancer = (BaseLoadBalancer) getLoadBalancer();
 
 		Cache cache = cacheManager.getCache(SERVER_VERSION_CACHE_NAME);
+		List<Server> eligibleServers = getPredicate().getEligibleServers(loadBalancer.getAllServers(), key);
+		JSONArray versions = new JSONArray();
+
+		Map<String,String> threadLocalItem = ThreadLocalContext.get();
+		if(threadLocalItem !=null){
+			String headerVersion = threadLocalItem.get(SERVER_VERSION_CACHE_NAME);
+			if(StringUtils.isNotBlank(headerVersion)){
+				versions.add(headerVersion);
+				filter(eligibleServers,versions);
+				return originChoose(eligibleServers,key);
+			}
+		}
+
+
 		JSONObject servers = cache.get(DATA_ID,JSONObject.class);
 		if(servers==null) {
 			try {
@@ -63,21 +80,12 @@ public class GrayMetadataRule extends PredicateBasedRule {
 				e.printStackTrace();
 			}
 		}
-
-
-		JSONArray versions = servers.getJSONArray(loadBalancer.getName());
-
-		List<Server> eligibleServers = getPredicate().getEligibleServers(loadBalancer.getAllServers(), key);
-		Iterator<Server> iterator = eligibleServers.iterator();
-		while (iterator.hasNext()){
-			NacosServer nacosServer = (NacosServer) iterator.next();
-			String version = nacosServer.getMetadata().get(SERVER_VERSION_CACHE_NAME);
-			if(!versions.contains(version)){
-				iterator.remove();
-			}
-		}
+		versions = servers.getJSONArray(loadBalancer.getName());
+		filter(eligibleServers,versions);
 		return originChoose(eligibleServers,key);
 	}
+
+
 
 	@Override
 	public AbstractServerPredicate getPredicate() {
@@ -91,6 +99,17 @@ public class GrayMetadataRule extends PredicateBasedRule {
 			return server.get();
 		} else {
 			return null;
+		}
+	}
+
+	private void filter(List<Server> eligibleServers,JSONArray versions){
+		Iterator<Server> iterator = eligibleServers.iterator();
+		while (iterator.hasNext()){
+			NacosServer nacosServer = (NacosServer) iterator.next();
+			String version = nacosServer.getMetadata().get(SERVER_VERSION_CACHE_NAME);
+			if(!versions.contains(version)){
+				iterator.remove();
+			}
 		}
 	}
 }
