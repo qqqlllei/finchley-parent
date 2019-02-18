@@ -1,1 +1,3 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=com.gray.gateway.configuration.RibbonClientDefaultConfiguration
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.gray.gateway.configuration.RibbonClientDefaultConfiguration,\
+  com.gray.gateway.configuration.NacosEventListenerConfiguration
