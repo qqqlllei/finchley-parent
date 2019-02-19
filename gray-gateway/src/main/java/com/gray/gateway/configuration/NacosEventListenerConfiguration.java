@@ -49,7 +49,7 @@ public class NacosEventListenerConfiguration {
     private void initNacosInfoAndListener(String dateName) throws NacosException {
         ConfigService configService = nacosConfigProperties.configServiceInstance();
         String dataId = dateName+GrayConstant.SERVER_GRAY_FILE_EXTENSION;
-        String grayString = configService.getConfig(dataId,DEFAULT_GROUP,2000l);
+        String grayString = configService.getConfig(dataId,DEFAULT_GROUP,GrayConstant.GET_NACOS_CONFIG_TIMEOUT);
         if(grayString ==null || StringUtils.isBlank(grayString)) {
             throw new NacosException(1000,"server gray is missing");
         }
