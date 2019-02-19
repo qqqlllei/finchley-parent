@@ -1,23 +1,20 @@
 package com.gray.gateway.rule;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.alibaba.nacos.api.config.ConfigService;
 import com.alibaba.nacos.api.exception.NacosException;
 import com.google.common.base.Optional;
+import com.gray.gateway.service.NacosConfigToCacheService;
 import com.gray.gateway.util.GrayConstant;
 import com.netflix.loadbalancer.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
-import org.springframework.cloud.alibaba.nacos.NacosConfigProperties;
 import org.springframework.cloud.alibaba.nacos.ribbon.NacosServer;
 
 import javax.annotation.PostConstruct;
 import java.util.Iterator;
 import java.util.List;
-
-import static com.alibaba.nacos.api.common.Constants.DEFAULT_GROUP;
 
 public class GrayMetadataRule extends PredicateBasedRule {
 
@@ -28,7 +25,7 @@ public class GrayMetadataRule extends PredicateBasedRule {
 	private String currentApplicationVersion;
 
 	@Autowired
-	private NacosConfigProperties nacosConfigProperties;
+	private NacosConfigToCacheService nacosConfigToCacheService;
 
 	private String DATA_ID ;
 	private String DATA_NAME;
@@ -61,7 +58,11 @@ public class GrayMetadataRule extends PredicateBasedRule {
 		JSONArray versions = cache.get(DATA_NAME+serverName+GrayConstant.SERVER_GRAY_VERSION_NAME,JSONArray.class);
 		JSONObject grayIp = cache.get(DATA_NAME+serverName+GrayConstant.SERVER_GRAY_IP_NAME,JSONObject.class);
 		if(versions==null || grayIp == null || versions.size()==0 ) {
-
+			try {
+				nacosConfigToCacheService.initNacosInfoAndListener(DATA_NAME);
+			} catch (NacosException e) {
+				e.printStackTrace();
+			}
 		}
 		filterVersion(eligibleServers,versions);
 		filterIp(eligibleServers,grayIp);
