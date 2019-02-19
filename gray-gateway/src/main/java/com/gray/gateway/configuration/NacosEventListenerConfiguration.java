@@ -1,5 +1,6 @@
 package com.gray.gateway.configuration;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.nacos.api.config.ConfigService;
 import com.alibaba.nacos.api.config.listener.AbstractListener;
@@ -21,6 +22,7 @@ import javax.annotation.PostConstruct;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Set;
 
 import static com.alibaba.nacos.api.common.Constants.DEFAULT_GROUP;
 
@@ -104,16 +106,18 @@ public class NacosEventListenerConfiguration {
             throw new NacosException(1000,"server gray info is missing");
         }
         JSONObject gray = JSONObject.parseObject(configInfo);
-        JSONObject grayVersion = gray.getJSONObject(GrayConstant.SERVER_GRAY_VERSION_NAME);
-
-        if(grayVersion == null ){
-            throw new NacosException(1000,"server gray version  is missing");
+        Set<String> servers = gray.keySet();
+        for (String key:servers){
+            JSONObject server = gray.getJSONObject(key);
+            JSONArray grayVersion = server.getJSONArray(GrayConstant.SERVER_GRAY_VERSION_NAME);
+            if(grayVersion == null || grayVersion.size()==0){
+                throw new NacosException(1000,"server ["+key+"] gray version  is missing");
+            }
+            JSONObject grayIp = server.getJSONObject(GrayConstant.SERVER_GRAY_IP_NAME);
+            Cache cache = ehCacheCacheManager.getCache(GrayConstant.SERVER_GRAY_CACHE_NAME);
+            cache.put(dateName+key+GrayConstant.SERVER_GRAY_VERSION_NAME, grayVersion);
+            cache.put(dateName+key+GrayConstant.SERVER_GRAY_IP_NAME, grayIp);
         }
-        JSONObject grayIp = gray.getJSONObject(GrayConstant.SERVER_GRAY_IP_NAME);
-
-        Cache cache = ehCacheCacheManager.getCache(GrayConstant.SERVER_GRAY_CACHE_NAME);
-        cache.put(dateName+GrayConstant.SERVER_GRAY_VERSION_NAME, grayVersion);
-        cache.put(dateName+GrayConstant.SERVER_GRAY_IP_NAME, grayIp);
     }
 
 

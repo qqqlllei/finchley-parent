@@ -1,10 +1,10 @@
 {
-  "version":{
-    "demo-a":["1.0.0","1.0.1"],
-    "demo-b":["1.0.0"]
+  "demo-a": {
+    "version": ["1.0.0","1.0.1"],
+    "ip": {"whiteList": ["10.33.50.40"], "blackList": ["10.33.50.41"]}
   },
-  "ip":{
-    "whiteList":[],
-    "blackList":["10.33.50.40"]
+  "demo-b": {
+    "version": ["1.0.0"],
+    "ip": {"whiteList": [], "blackList": ["10.33.50.41"]}
   }
 }

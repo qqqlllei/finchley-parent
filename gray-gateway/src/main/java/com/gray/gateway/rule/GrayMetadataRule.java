@@ -57,21 +57,12 @@ public class GrayMetadataRule extends PredicateBasedRule {
 
 		Cache cache = cacheManager.getCache(GrayConstant.SERVER_GRAY_CACHE_NAME);
 		List<Server> eligibleServers = getPredicate().getEligibleServers(loadBalancer.getAllServers(), key);
+		String serverName = loadBalancer.getName();
+		JSONArray versions = cache.get(DATA_NAME+serverName+GrayConstant.SERVER_GRAY_VERSION_NAME,JSONArray.class);
+		JSONObject grayIp = cache.get(DATA_NAME+serverName+GrayConstant.SERVER_GRAY_IP_NAME,JSONObject.class);
+		if(versions==null || grayIp == null || versions.size()==0 ) {
 
-		JSONObject grayVersion = cache.get(DATA_NAME+GrayConstant.SERVER_GRAY_VERSION_NAME,JSONObject.class);
-		JSONObject grayIp = cache.get(DATA_NAME+GrayConstant.SERVER_GRAY_IP_NAME,JSONObject.class);
-		if(grayVersion==null || grayIp == null) {
-			try {
-				ConfigService configService = nacosConfigProperties.configServiceInstance();
-				String grayString = configService.getConfig(DATA_ID,DEFAULT_GROUP,GrayConstant.GET_NACOS_CONFIG_TIMEOUT);
-				JSONObject gray = JSONObject.parseObject(grayString);
-				grayVersion = gray.getJSONObject(GrayConstant.SERVER_GRAY_VERSION_NAME);
-				grayIp = gray.getJSONObject(GrayConstant.SERVER_GRAY_IP_NAME);
-			} catch (NacosException e) {
-				e.printStackTrace();
-			}
 		}
-		JSONArray versions = grayVersion.getJSONArray(loadBalancer.getName());
 		filterVersion(eligibleServers,versions);
 		filterIp(eligibleServers,grayIp);
 		return originChoose(eligibleServers,key);
