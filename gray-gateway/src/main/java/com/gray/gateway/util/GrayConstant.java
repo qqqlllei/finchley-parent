@@ -10,7 +10,9 @@ public class GrayConstant {
     public static final String SERVER_GRAY_VERSION_NAME="version";
     public static final String SERVER_GRAY_IP_NAME="ip";
     public static final String SERVER_GRAY_FILE_EXTENSION=".json";
-    public static final long GET_NACOS_CONFIG_TIMEOUT=2000l;
+    public static final long   GET_NACOS_CONFIG_TIMEOUT = 2000l;
     public static final String SERVER_GRAY_WHITE_LIST_NAME="whiteList";
     public static final String SERVER_GRAY_BLACK_LIST_NAME="blackList";
+    public static final String SERVER_GRAY_LOCAL_CONFIG_INFO_PATH="classpath:gray.json";
+    public static final String SERVER_GRAY_CHARSET_UTF8="UTF-8";
 }
