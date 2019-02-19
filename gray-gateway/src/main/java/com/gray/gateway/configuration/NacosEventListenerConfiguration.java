@@ -47,7 +47,7 @@ public class NacosEventListenerConfiguration {
     private String currentApplicationVersion;
 
 
-    @Value("${gray.configuration.local.enable}")
+    @Value("${gray.configuration.local.enable:false}")
     private boolean configurationLocalEnable;
 
     @PostConstruct

@@ -18,7 +18,7 @@ management:
 info:
   version: 1.0.1
 
-gray:
-  configuration:
-    local:
-      enable: true
+#gray:
+#  configuration:
+#    local:
+#      enable: true
