@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.alibaba.nacos.api.config.ConfigService;
 import com.alibaba.nacos.api.exception.NacosException;
 import com.google.common.base.Optional;
+import com.gray.gateway.util.GrayConstant;
 import com.netflix.loadbalancer.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,10 +17,9 @@ import javax.annotation.PostConstruct;
 import java.util.Iterator;
 import java.util.List;
 
+import static com.alibaba.nacos.api.common.Constants.DEFAULT_GROUP;
+
 public class GrayMetadataRule extends PredicateBasedRule {
-
-
-	private static final String SERVER_VERSION_CACHE_NAME="version";
 
 	@Value("${spring.application.name}")
 	private String currentApplicationName;
@@ -31,10 +31,12 @@ public class GrayMetadataRule extends PredicateBasedRule {
 	private NacosConfigProperties nacosConfigProperties;
 
 	private String DATA_ID ;
+	private String DATA_NAME;
 
 	@PostConstruct
 	public void init(){
-		DATA_ID= currentApplicationName+"-version-"+currentApplicationVersion+".json";
+		DATA_NAME=currentApplicationName+"-"+ GrayConstant.SERVER_GRAY_CACHE_NAME+"-"+currentApplicationVersion;
+		DATA_ID= DATA_NAME+ GrayConstant.SERVER_GRAY_FILE_EXTENSION;
 	}
 
 	@Autowired
@@ -53,23 +55,28 @@ public class GrayMetadataRule extends PredicateBasedRule {
 
 		BaseLoadBalancer loadBalancer = (BaseLoadBalancer) getLoadBalancer();
 
-		Cache cache = cacheManager.getCache(SERVER_VERSION_CACHE_NAME);
+		Cache cache = cacheManager.getCache(GrayConstant.SERVER_GRAY_CACHE_NAME);
 		List<Server> eligibleServers = getPredicate().getEligibleServers(loadBalancer.getAllServers(), key);
 
-		JSONObject servers = cache.get(DATA_ID,JSONObject.class);
-		if(servers==null) {
+		JSONObject grayVersion = cache.get(DATA_NAME+GrayConstant.SERVER_GRAY_VERSION_NAME,JSONObject.class);
+		JSONObject grayIp = cache.get(DATA_NAME+GrayConstant.SERVER_GRAY_IP_NAME,JSONObject.class);
+		if(grayVersion==null || grayIp == null) {
 			try {
 				ConfigService configService = nacosConfigProperties.configServiceInstance();
-				String versionsString = configService.getConfig(DATA_ID,"DEFAULT_GROUP",2000l);
-				servers = JSONObject.parseObject(versionsString);
+				String grayString = configService.getConfig(DATA_ID,DEFAULT_GROUP,GrayConstant.GET_NACOS_CONFIG_TIMEOUT);
+				JSONObject gray = JSONObject.parseObject(grayString);
+				grayVersion = gray.getJSONObject(GrayConstant.SERVER_GRAY_VERSION_NAME);
+				grayIp = gray.getJSONObject(GrayConstant.SERVER_GRAY_IP_NAME);
 			} catch (NacosException e) {
 				e.printStackTrace();
 			}
 		}
-		JSONArray versions = servers.getJSONArray(loadBalancer.getName());
-		filter(eligibleServers,versions);
+		JSONArray versions = grayVersion.getJSONArray(loadBalancer.getName());
+		filterVersion(eligibleServers,versions);
+		filterIp(eligibleServers,grayIp);
 		return originChoose(eligibleServers,key);
 	}
+
 
 
 
@@ -88,11 +95,32 @@ public class GrayMetadataRule extends PredicateBasedRule {
 		}
 	}
 
-	private void filter(List<Server> eligibleServers,JSONArray versions){
+
+
+	private void filterIp(List<Server> eligibleServers, JSONObject grayIp) {
+		Iterator<Server> iterator = eligibleServers.iterator();
+		JSONArray whiteList = grayIp.getJSONArray(GrayConstant.SERVER_GRAY_WHITE_LIST_NAME);
+		JSONArray blackList = grayIp.getJSONArray(GrayConstant.SERVER_GRAY_BLACK_LIST_NAME);
+		while (iterator.hasNext()){
+			NacosServer nacosServer = (NacosServer) iterator.next();
+			String host = nacosServer.getHost();
+			if(whiteList !=null && whiteList.size()>0 && !whiteList.contains(host)){
+				iterator.remove();
+			}
+
+			if(blackList!=null && blackList.size()>0 && blackList.contains(host)){
+				iterator.remove();
+			}
+
+		}
+	}
+
+
+	private void filterVersion(List<Server> eligibleServers,JSONArray versions){
 		Iterator<Server> iterator = eligibleServers.iterator();
 		while (iterator.hasNext()){
 			NacosServer nacosServer = (NacosServer) iterator.next();
-			String version = nacosServer.getMetadata().get(SERVER_VERSION_CACHE_NAME);
+			String version = nacosServer.getMetadata().get(GrayConstant.SERVER_GRAY_VERSION_NAME);
 			if(!versions.contains(version)){
 				iterator.remove();
 			}

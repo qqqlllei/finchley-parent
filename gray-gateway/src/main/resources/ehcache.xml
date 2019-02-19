@@ -33,7 +33,7 @@
             memoryStoreEvictionPolicy="LRU" />
 
     <cache
-            name="version"
+            name="gray"
             eternal="true"
             maxElementsInMemory="100"
             overflowToDisk="false"
