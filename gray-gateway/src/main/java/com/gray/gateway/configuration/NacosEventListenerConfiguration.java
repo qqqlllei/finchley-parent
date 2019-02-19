@@ -51,21 +51,21 @@ public class NacosEventListenerConfiguration {
         initNacosInfoAndListener(dateId);
 
 
-        if("gateway-server".equals(currentApplicationName)){
-            ConfigService configService = nacosConfigProperties.configServiceInstance();
-            String gatewayVersionsJson = configService.getConfig("gateway-server-version-parent.json",DEFAULT_GROUP,500L);
-            if(gatewayVersionsJson ==null || StringUtils.isBlank(gatewayVersionsJson)) {
-                throw new NacosException(1000,"gatewayVersions is missing");
-            }
-
-            JSONArray list = JSONArray.parseArray(gatewayVersionsJson);
-            for (int i=0;i<list.size();i++){
-                String version = (String) list.get(i);
-                initNacosInfoAndListener(currentApplicationName+"-version-"+version+".json");
-            }
-
-        }
-
+//        if("gateway-server".equals(currentApplicationName)){
+//            ConfigService configService = nacosConfigProperties.configServiceInstance();
+//            String gatewayVersionsJson = configService.getConfig("gateway-server-version-parent.json",DEFAULT_GROUP,500L);
+//            if(gatewayVersionsJson ==null || StringUtils.isBlank(gatewayVersionsJson)) {
+//                throw new NacosException(1000,"gatewayVersions is missing");
+//            }
+//
+//            JSONArray list = JSONArray.parseArray(gatewayVersionsJson);
+//            for (int i=0;i<list.size();i++){
+//                String version = (String) list.get(i);
+//                initNacosInfoAndListener(currentApplicationName+"-version-"+version+".json");
+//            }
+//
+//            initNacosInfoAndListener("gateway-server-version-parent.json");
+//        }
     }
 
 
