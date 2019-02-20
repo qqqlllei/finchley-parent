@@ -3,12 +3,3 @@ server:
 info:
   version: 1.0.1
   isGray: false
-
-#eureka:
-#  client:
-#    serviceUrl:
-#      defaultZone: http://localhost:8761/eureka/
-#  instance:
-#    metadata-map:
-#      version: ${info.version}
-#      isGray: ${info.isGray}

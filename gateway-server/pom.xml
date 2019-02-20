@@ -11,6 +11,7 @@
 
     <groupId>spring.cloud.finchley</groupId>
     <artifactId>gateway-server</artifactId>
+    <version>1.0.1</version>
 
 
 

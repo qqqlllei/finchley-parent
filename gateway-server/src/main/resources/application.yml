@@ -16,9 +16,15 @@ management:
   security:
     enabled: false
 info:
-  version: 1.0.1
+  version: @version@
 
 #gray:
 #  configuration:
 #    local:
 #      enable: true
+
+spring:
+  cloud:
+    nacos:
+      discovery:
+        metadata: {"version":@version@}
