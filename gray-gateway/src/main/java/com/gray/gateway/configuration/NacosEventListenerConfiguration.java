@@ -1,6 +1,7 @@
 package com.gray.gateway.configuration;
 
 import com.gray.gateway.service.NacosConfigToCacheService;
+import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

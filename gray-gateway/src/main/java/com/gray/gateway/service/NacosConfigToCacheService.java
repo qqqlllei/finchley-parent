@@ -6,6 +6,7 @@ import com.alibaba.nacos.api.config.ConfigService;
 import com.alibaba.nacos.api.config.listener.AbstractListener;
 import com.alibaba.nacos.api.exception.NacosException;
 import com.gray.gateway.util.GrayConstant;
+import com.netflix.loadbalancer.Server;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -15,6 +16,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.Cache;
 import org.springframework.cache.ehcache.EhCacheCacheManager;
 import org.springframework.cloud.alibaba.nacos.NacosConfigProperties;
+import org.springframework.cloud.alibaba.nacos.ribbon.NacosServer;
 import org.springframework.context.ApplicationContext;
 
 import javax.annotation.PostConstruct;
@@ -50,14 +52,16 @@ public class NacosConfigToCacheService {
     @Value("${gray.configuration.local.enable:false}")
     private boolean configurationLocalEnable;
 
+    private String DATA_NAME;
+
     @PostConstruct
     public void init() throws NacosException {
 
-        String dateName  = currentApplicationName+"-"+ GrayConstant.SERVER_GRAY_CACHE_NAME+"-"+currentApplicationVersion;
+        DATA_NAME  = currentApplicationName+"-"+ GrayConstant.SERVER_GRAY_CACHE_NAME+"-"+currentApplicationVersion;
         if(configurationLocalEnable){
-            initLocalConfigInfoToCache(dateName);
+            initLocalConfigInfoToCache(DATA_NAME);
         }else {
-            initNacosInfoAndListener(dateName);
+            initNacosInfoAndListener(DATA_NAME);
         }
 
     }
@@ -116,6 +120,52 @@ public class NacosConfigToCacheService {
             cache.put(dateName+key+GrayConstant.SERVER_GRAY_VERSION_NAME, grayVersion);
             cache.put(dateName+key+GrayConstant.SERVER_GRAY_IP_NAME, grayIp);
         }
+    }
+
+
+    public boolean filterVersion(Server server){
+        NacosServer nacosServer = (NacosServer) server;
+        String version = nacosServer.getMetadata().get(GrayConstant.SERVER_GRAY_VERSION_NAME);
+        if(!getVersions(server).contains(version)){
+            return false;
+        }
+        return true;
+    }
+
+    public boolean filterIp(Server server){
+        NacosServer nacosServer = (NacosServer) server;
+        JSONObject grayIp =  getGrapIp(server);
+        JSONArray whiteList = grayIp.getJSONArray(GrayConstant.SERVER_GRAY_WHITE_LIST_NAME);
+        JSONArray blackList = grayIp.getJSONArray(GrayConstant.SERVER_GRAY_BLACK_LIST_NAME);
+
+        String host = nacosServer.getHost();
+        if(whiteList !=null && whiteList.size()>0 && !whiteList.contains(host)){
+            return false;
+        }
+
+        if(blackList!=null && blackList.size()>0 && blackList.contains(host)){
+            return false;
+        }
+
+        return true;
+    }
+
+
+    public JSONArray getVersions(Server server){
+        NacosServer nacosServer = (NacosServer) server;
+        Cache cache = ehCacheCacheManager.getCache(GrayConstant.SERVER_GRAY_CACHE_NAME);
+        return cache.get(DATA_NAME+nacosServer.getInstance().getServiceName()
+                + GrayConstant.SERVER_GRAY_VERSION_NAME,JSONArray.class);
+
+    }
+
+    public JSONObject getGrapIp(Server server){
+
+        NacosServer nacosServer = (NacosServer) server;
+
+        Cache cache = ehCacheCacheManager.getCache(GrayConstant.SERVER_GRAY_CACHE_NAME);
+        return cache.get(DATA_NAME+nacosServer.getInstance().getServiceName()
+                +GrayConstant.SERVER_GRAY_IP_NAME,JSONObject.class);
     }
 
 

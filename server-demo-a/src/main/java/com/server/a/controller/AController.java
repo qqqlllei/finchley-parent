@@ -1,6 +1,8 @@
 package com.server.a.controller;
 
 import com.server.a.Fegin.BServerApi;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,6 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/demo")
 public class AController {
 
+    private Logger logger =LoggerFactory.getLogger(AController.class);
+
     @Autowired
     private BServerApi bServerApi;
 
@@ -21,7 +25,7 @@ public class AController {
     public ResponseEntity<String> info() throws InterruptedException {
 
 //        Thread.sleep(20000l);
-        System.out.println("AController===================info======================");
+        logger.info("AController===================info======================");
         bServerApi.info();
         return ResponseEntity.ok("ok");
     }
