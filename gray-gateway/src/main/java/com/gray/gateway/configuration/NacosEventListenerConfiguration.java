@@ -11,6 +11,14 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class NacosEventListenerConfiguration {
 
+
+    @Bean
+    public NacosConfigManage nacosConfigManage(){
+        NacosConfigManage nacosConfigManage = new NacosConfigManage();
+        nacosConfigManage.setNacosConfigToCacheService(nacosConfigService());
+        return nacosConfigManage;
+    }
+
     @Bean
     public NacosConfigToCacheService nacosConfigService(){
         return new NacosConfigToCacheService();

@@ -31,14 +31,8 @@ import static com.alibaba.nacos.api.common.Constants.DEFAULT_GROUP;
  */
 public class NacosConfigToCacheService {
 
-    private static final Logger logger = LoggerFactory.getLogger(NacosConfigToCacheService.class);
-
     @Autowired
     private ApplicationContext applicationContext;
-
-    @Autowired
-    private NacosConfigProperties nacosConfigProperties;
-
     @Autowired
     private EhCacheCacheManager ehCacheCacheManager;
 
@@ -60,33 +54,12 @@ public class NacosConfigToCacheService {
         DATA_NAME  = currentApplicationName+"-"+ GrayConstant.SERVER_GRAY_CACHE_NAME+"-"+currentApplicationVersion;
         if(configurationLocalEnable){
             initLocalConfigInfoToCache(DATA_NAME);
-        }else {
-            initNacosInfoAndListener(DATA_NAME);
         }
 
     }
 
 
-    public void initNacosInfoAndListener(String dateName) throws NacosException {
-        ConfigService configService = nacosConfigProperties.configServiceInstance();
-        String dataId = dateName+ GrayConstant.SERVER_GRAY_FILE_EXTENSION;
-        String grayString = configService.getConfig(dataId,DEFAULT_GROUP,GrayConstant.GET_NACOS_CONFIG_TIMEOUT);
 
-        initConfigInfoToCache(grayString,dateName);
-
-        configService.addListener(dataId, DEFAULT_GROUP, new AbstractListener() {
-            @Override
-            public void receiveConfigInfo(String configInfo) {
-
-                try {
-                    initConfigInfoToCache(configInfo,dateName);
-                } catch (NacosException e) {
-                    e.printStackTrace();
-                }
-                logger.info("Listening on NacosConfigChange Event - dateId="+dataId+"-group="+DEFAULT_GROUP+"-configInfo="+configInfo );
-            }
-        });
-    }
 
 
     public void initLocalConfigInfoToCache(String dateName) throws NacosException {
