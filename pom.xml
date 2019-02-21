@@ -14,7 +14,6 @@
         <module>auth-server</module>
         <module>config-server</module>
         <module>operation-server</module>
-        <module>gray-core</module>
         <module>server-demo-b</module>
         <module>gray-nacos</module>
     </modules>
