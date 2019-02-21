@@ -3,3 +3,8 @@ server:
 info:
   version: 1.0.1
   isGray: false
+spring:
+  cloud:
+    nacos:
+      discovery:
+        metadata: {"version":@version@}
