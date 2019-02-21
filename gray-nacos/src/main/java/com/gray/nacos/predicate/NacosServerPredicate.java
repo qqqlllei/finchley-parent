@@ -1,6 +1,6 @@
-package com.gray.gateway.predicate;
+package com.gray.nacos.predicate;
 
-import com.gray.gateway.service.NacosConfigToCacheService;
+import com.gray.nacos.service.NacosConfigToCacheService;
 import com.netflix.client.config.IClientConfig;
 import com.netflix.loadbalancer.IRule;
 import com.netflix.loadbalancer.PredicateKey;

@@ -1,4 +1,4 @@
-package com.gray.gateway.configuration;
+package com.gray.nacos.configuration;
 
 import org.springframework.cloud.netflix.ribbon.RibbonClients;
 

@@ -1,4 +1,4 @@
-package com.gray.gateway.util;
+package com.gray.nacos.util;
 
 import java.util.Map;
 

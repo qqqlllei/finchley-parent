@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>spring.cloud.finchley</groupId>
-    <artifactId>gray-gateway</artifactId>
+    <artifactId>gray-nacos</artifactId>
     <dependencies>
         <dependency>
             <groupId>com.netflix.ribbon</groupId>

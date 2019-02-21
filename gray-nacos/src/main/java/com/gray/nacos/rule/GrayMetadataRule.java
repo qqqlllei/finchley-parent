@@ -1,6 +1,6 @@
-package com.gray.gateway.rule;
+package com.gray.nacos.rule;
 
-import com.gray.gateway.predicate.NacosServerPredicate;
+import com.gray.nacos.predicate.NacosServerPredicate;
 import com.netflix.loadbalancer.AbstractServerPredicate;
 import com.netflix.loadbalancer.CompositePredicate;
 import com.netflix.loadbalancer.PredicateBasedRule;

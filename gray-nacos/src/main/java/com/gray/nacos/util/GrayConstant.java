@@ -1,4 +1,4 @@
-package com.gray.gateway.util;
+package com.gray.nacos.util;
 
 /**
  * Created by 李雷 on 2019/2/19.

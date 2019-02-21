@@ -1,21 +1,16 @@
-package com.gray.gateway.service;
+package com.gray.nacos.service;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.alibaba.nacos.api.config.ConfigService;
-import com.alibaba.nacos.api.config.listener.AbstractListener;
 import com.alibaba.nacos.api.exception.NacosException;
-import com.gray.gateway.util.GrayConstant;
+import com.gray.nacos.util.GrayConstant;
 import com.netflix.loadbalancer.Server;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.Cache;
 import org.springframework.cache.ehcache.EhCacheCacheManager;
-import org.springframework.cloud.alibaba.nacos.NacosConfigProperties;
 import org.springframework.cloud.alibaba.nacos.ribbon.NacosServer;
 import org.springframework.context.ApplicationContext;
 
@@ -23,8 +18,6 @@ import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Set;
-
-import static com.alibaba.nacos.api.common.Constants.DEFAULT_GROUP;
 
 /**
  * Created by 李雷 on 2019/2/19.

@@ -1,13 +1,10 @@
-package com.gray.gateway.configuration;
+package com.gray.nacos.configuration;
 
 
-import com.gray.gateway.rule.GrayMetadataRule;
-import com.gray.gateway.service.NacosConfigToCacheService;
+import com.gray.nacos.rule.GrayMetadataRule;
+import com.gray.nacos.service.NacosConfigToCacheService;
 import com.netflix.loadbalancer.IRule;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.AutoConfigureAfter;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

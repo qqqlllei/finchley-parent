@@ -16,7 +16,7 @@
         <module>operation-server</module>
         <module>gray-core</module>
         <module>server-demo-b</module>
-        <module>gray-gateway</module>
+        <module>gray-nacos</module>
     </modules>
     <packaging>pom</packaging>
 

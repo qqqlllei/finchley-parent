@@ -1,10 +1,10 @@
-package com.gray.gateway.configuration;
+package com.gray.nacos.configuration;
 
 import com.alibaba.nacos.api.config.ConfigService;
 import com.alibaba.nacos.api.config.listener.AbstractListener;
 import com.alibaba.nacos.api.exception.NacosException;
-import com.gray.gateway.service.NacosConfigToCacheService;
-import com.gray.gateway.util.GrayConstant;
+import com.gray.nacos.service.NacosConfigToCacheService;
+import com.gray.nacos.util.GrayConstant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
