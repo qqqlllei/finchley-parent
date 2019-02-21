@@ -8,3 +8,12 @@ spring:
     nacos:
       discovery:
         metadata: {"version":@version@}
+  servlet:
+    multipart:
+      max-file-size: 100Mb
+      max-request-size: 1000Mb
+fdfs:
+  connect-timeout: 10000
+  so-timeout: 3000
+  tracker-list:
+    - 10.33.80.144:22122
