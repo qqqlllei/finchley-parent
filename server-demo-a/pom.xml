@@ -65,6 +65,31 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
+
+
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>1.2.0</version>
+                <configuration>
+                    <forceTags>true</forceTags>
+                    <baseImage>frolvlad/alpine-oraclejdk8:slim</baseImage>
+                    <env>
+                        <JAVA_OPTS>"-server -Xms1024M -Xmx1024M"</JAVA_OPTS>
+                    </env>
+                    <entryPoint>["sh", "-c", "java $JAVA_OPTS -Djava.security.egd=file:/dev/./urandom -jar /${project.build.finalName}.jar"]</entryPoint>
+                    <resources>
+                        <resource>
+                            <targetPath>./</targetPath>
+                            <directory>${project.build.directory}</directory>
+                            <include>${project.build.finalName}.jar</include>
+                        </resource>
+
+                    </resources>
+                    <serverId>docker-hub</serverId>
+                    <imageName>10.0.8.189:5000/system/${project.build.finalName}</imageName>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
