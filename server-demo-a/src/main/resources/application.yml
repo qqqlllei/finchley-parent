@@ -8,3 +8,16 @@ spring:
     nacos:
       discovery:
         metadata: {"version":@version@}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: ALWAYS
+  server:
+    servlet:
+      context-path:
+
