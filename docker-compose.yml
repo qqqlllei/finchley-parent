@@ -1,0 +1,40 @@
+version: "3"
+services:
+  demo-a:
+    image: 10.0.8.189:5000/system/server-demo-a-1.0.0
+    ports:
+      - "8082:8082"
+    environment:
+      - "SERVER_PORT=8082"
+    volumes:
+      - "/root/logs/demo-a:/logs/demo-a"
+      - "/etc/localtime:/etc/localtime:ro"
+    networks:
+      - dev1
+
+  demo-b:
+    image: 10.0.8.189:5000/system/server-demo-b-1.0.1
+    ports:
+      - "8083:8083"
+    environment:
+      - "SERVER_PORT=8083"
+    volumes:
+      - "/root/logs/demo-b:/logs/demo-b"
+      - "/etc/localtime:/etc/localtime:ro"
+    networks:
+      - dev1
+
+  gateway-server:
+    image: 10.0.8.189:5000/system/gateway-server-1.0.1
+    ports:
+      - "8081:8081"
+    environment:
+      - "SERVER_PORT=8081"
+    volumes:
+      - "/root/logs/gateway-server:/logs/gateway-server"
+      - "/etc/localtime:/etc/localtime:ro"
+    networks:
+      - dev1
+
+networks:
+  dev1:
