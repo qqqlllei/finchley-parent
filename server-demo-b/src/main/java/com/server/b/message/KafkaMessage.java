@@ -2,6 +2,7 @@ package com.server.b.message;
 
 import com.alibaba.fastjson.JSONObject;
 import com.reliable.message.model.domain.ClientMessageData;
+import com.reliable.message.model.domain.ServerMessageData;
 import com.server.b.topic.TopicConst;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -19,7 +20,7 @@ public class KafkaMessage {
 
     @KafkaListener(topics = TopicConst.SAVE_USER)
     public void saveUser(String message){
-        ClientMessageData messageData = JSONObject.parseObject(message, ClientMessageData.class);
+        ServerMessageData messageData = JSONObject.parseObject(message, ServerMessageData.class);
         messageServer.saveUser(messageData);
     }
 
