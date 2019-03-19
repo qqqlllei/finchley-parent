@@ -81,7 +81,7 @@
                 <version>1.2.0</version>
                 <configuration>
                     <forceTags>true</forceTags>
-                    <baseImage>frolvlad/alpine-oraclejdk8:slim</baseImage>
+                    <baseImage>java:openjdk-8-jdk-alpine</baseImage>
                     <env>
                         <JAVA_OPTS>"-server -Xms1024M -Xmx1024M"</JAVA_OPTS>
                     </env>

@@ -30,9 +30,9 @@ public class BController {
     @RequestMapping("/info")
     public ResponseEntity<String> info(){
 
-        logger.info("BController===================info======================");
+        logger.info("BController===================info new======================");
         bService.info();
-        return ResponseEntity.ok("ok"+aaa);
+        return ResponseEntity.ok("ok2"+aaa);
 
     }
 

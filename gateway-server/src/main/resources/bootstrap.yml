@@ -10,5 +10,5 @@ spring:
         file-extension: yml
 
     inetutils:
-      preferred-networks: 10
+      preferred-networks: 10.0
 
