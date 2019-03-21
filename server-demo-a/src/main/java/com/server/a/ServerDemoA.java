@@ -10,7 +10,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 @EnableDiscoveryClient
 @EnableFeignClients(basePackages =  {"com.reliable.message.client.feign","com.server.a.Feign"})
 @EnableCaching
-@MapperScan({"com.reliable.message.client.dao"})
+@MapperScan({"com.reliable.message.client.dao","com.server.a.dao"})
 public class ServerDemoA {
 
 	public static void main(String[] args) {

@@ -1,6 +1,7 @@
 package com.server.a.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.reliable.message.client.util.UUIDUtil;
 import com.reliable.message.model.domain.ClientMessageData;
 import com.server.a.Fegin.BServerApi;
 import com.server.a.server.AServer;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Random;
+import java.util.UUID;
 
 /**
  * Created by 李雷 on 2019/1/22.
@@ -39,7 +41,6 @@ public class AController {
 //        Thread.sleep(20000l);
         logger.info("AController===================info======================");
         ClientMessageData clientMessageData = new ClientMessageData();
-        clientMessageData.setId(uniqueId.getNextIdByApplicationName(ClientMessageData.class.getSimpleName()));
         clientMessageData.setMessageTopic("SAVE_USER");
         JSONObject messageBody = new JSONObject();
         messageBody.put("name","李雷");

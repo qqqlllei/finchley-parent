@@ -10,7 +10,7 @@ import org.springframework.kafka.annotation.EnableKafka;
 @EnableDiscoveryClient
 @EnableFeignClients(basePackages =  {"com.reliable.message.client.feign"})
 @EnableKafka
-@MapperScan({"com.reliable.message.client.dao"})
+@MapperScan({"com.reliable.message.client.dao","com.server.b.dao"})
 public class ServerDemoB {
 
 	public static void main(String[] args) {

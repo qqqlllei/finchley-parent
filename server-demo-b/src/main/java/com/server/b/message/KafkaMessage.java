@@ -1,7 +1,6 @@
 package com.server.b.message;
 
 import com.alibaba.fastjson.JSONObject;
-import com.reliable.message.model.domain.ClientMessageData;
 import com.reliable.message.model.domain.ServerMessageData;
 import com.server.b.topic.TopicConst;
 import org.springframework.beans.factory.annotation.Autowired;
