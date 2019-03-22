@@ -1,8 +1,7 @@
 package com.server.b.message;
 
 import com.alibaba.fastjson.JSONObject;
-import com.reliable.message.model.domain.ServerMessageData;
-import com.server.b.topic.TopicConst;
+import com.reliable.message.common.domain.ServerMessageData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
@@ -17,10 +16,11 @@ public class KafkaMessage {
     private MessageServer messageServer;
 
 
-    @KafkaListener(topics = TopicConst.SAVE_USER)
+    @KafkaListener(topics ={"#{'${topic.saveUser}'.split(',')}"})
     public void saveUser(String message){
         ServerMessageData messageData = JSONObject.parseObject(message, ServerMessageData.class);
         messageServer.saveUser(messageData);
     }
+
 
 }

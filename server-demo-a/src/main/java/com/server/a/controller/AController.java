@@ -1,15 +1,15 @@
 package com.server.a.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.reliable.message.client.util.UUIDUtil;
-import com.reliable.message.model.domain.ClientMessageData;
-import com.server.a.Fegin.BServerApi;
+import com.reliable.message.common.domain.ClientMessageData;
 import com.server.a.server.AServer;
 import com.server.a.util.UniqueId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -31,17 +31,16 @@ public class AController {
     @Autowired
     private AServer aServer;
 
-    @Autowired
-    private UniqueId uniqueId;
+
+    @Value("${topic.saveUser}")
+    private String saveUserTopic;
 
 
     @RequestMapping("/info")
     public ResponseEntity<String> info() throws InterruptedException {
-
-//        Thread.sleep(20000l);
         logger.info("AController===================info======================");
         ClientMessageData clientMessageData = new ClientMessageData();
-        clientMessageData.setMessageTopic("SAVE_USER");
+        clientMessageData.setMessageTopic(saveUserTopic);
         JSONObject messageBody = new JSONObject();
         messageBody.put("name","李雷");
         messageBody.put("age","29");

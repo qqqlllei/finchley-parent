@@ -1,9 +1,9 @@
 package com.server.b.message;
 
 import com.alibaba.fastjson.JSONObject;
-import com.reliable.message.client.annotation.MessageConsumerStore;
-import com.reliable.message.model.domain.ClientMessageData;
-import com.reliable.message.model.domain.ServerMessageData;
+
+import com.reliable.message.client.annotation.MessageConsumer;
+import com.reliable.message.common.domain.ServerMessageData;
 import com.server.b.service.UserServer;
 import com.server.b.util.UniqueId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +24,7 @@ public class MessageServer {
     private UniqueId uniqueId;
 
 
-    @MessageConsumerStore
+    @MessageConsumer
     @Transactional
     public void saveUser(ServerMessageData serverMessageData){
         JSONObject user = new JSONObject();

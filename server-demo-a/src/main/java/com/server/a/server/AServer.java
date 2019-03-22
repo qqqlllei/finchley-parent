@@ -1,8 +1,9 @@
 package com.server.a.server;
 
 import com.alibaba.fastjson.JSONObject;
-import com.reliable.message.client.annotation.MessageProducerStore;
-import com.reliable.message.model.domain.ClientMessageData;
+
+import com.reliable.message.client.annotation.MessageProducer;
+import com.reliable.message.common.domain.ClientMessageData;
 import com.server.a.util.UniqueId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,7 +22,7 @@ public class AServer {
     private UniqueId uniqueId;
 
 
-    @MessageProducerStore
+    @MessageProducer
     @Transactional
     public void aaa(ClientMessageData messageData){
         System.out.println("=====================");
