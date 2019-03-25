@@ -1,5 +1,5 @@
 server:
-  port: 7081
+  port: 7080
 info:
   version: 1.0.1
   isGray: false
@@ -31,3 +31,7 @@ fdfs:
 reliable:
   message:
     reliableMessageConsumer: true
+
+
+topic:
+  saveUser: SAVE_USER_1.0.0_DEMO-B

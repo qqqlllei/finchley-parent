@@ -32,15 +32,11 @@ public class AController {
     private AServer aServer;
 
 
-    @Value("${topic.saveUser}")
-    private String saveUserTopic;
-
-
     @RequestMapping("/info")
     public ResponseEntity<String> info() throws InterruptedException {
         logger.info("AController===================info======================");
         ClientMessageData clientMessageData = new ClientMessageData();
-        clientMessageData.setMessageTopic(saveUserTopic);
+        clientMessageData.setMessageTopic("SAVE_USER");
         JSONObject messageBody = new JSONObject();
         messageBody.put("name","李雷");
         messageBody.put("age","29");

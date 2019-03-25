@@ -32,7 +32,5 @@ public class MessageServer {
         user.put("name","demo");
         userServer.saveUser(user);
         System.out.println("=========consumer============"+JSONObject.toJSONString(serverMessageData));
-
-
     }
 }
