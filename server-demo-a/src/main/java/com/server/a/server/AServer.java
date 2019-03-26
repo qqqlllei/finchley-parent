@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 
 import com.reliable.message.client.annotation.MessageProducer;
 import com.reliable.message.common.domain.ClientMessageData;
+import com.reliable.message.common.enums.DelayLevelEnum;
 import com.server.a.util.UniqueId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,7 +23,7 @@ public class AServer {
     private UniqueId uniqueId;
 
 
-    @MessageProducer
+    @MessageProducer(delayLevel = DelayLevelEnum.ONE)
     @Transactional
     public void aaa(ClientMessageData messageData){
         System.out.println("=====================");

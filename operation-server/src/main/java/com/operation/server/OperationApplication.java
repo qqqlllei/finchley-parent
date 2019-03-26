@@ -1,8 +1,6 @@
 package com.operation.server;
 
-import com.netflix.ribbon.proxy.annotation.Http;
 import de.codecentric.boot.admin.server.config.EnableAdminServer;
-import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
@@ -40,7 +38,7 @@ public class OperationApplication {
         while (true){
             try {
                 doGet("http://localhost:8081/demo/info");
-                Thread.sleep(1L);
+                Thread.sleep(200L);
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (InterruptedException e) {
@@ -109,5 +107,6 @@ public class OperationApplication {
 
         return result;
     }
+
 
 }
