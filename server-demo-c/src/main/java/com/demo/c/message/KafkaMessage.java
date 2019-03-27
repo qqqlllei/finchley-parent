@@ -1,4 +1,4 @@
-package com.server.b.message;
+package com.demo.c.message;
 
 import com.alibaba.fastjson.JSONObject;
 import com.reliable.message.common.domain.ServerMessageData;

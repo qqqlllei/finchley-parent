@@ -15,6 +15,7 @@
         <module>config-server</module>
         <module>operation-server</module>
         <module>server-demo-b</module>
+        <module>server-demo-c</module>
         <module>gray-nacos</module>
     </modules>
     <packaging>pom</packaging>

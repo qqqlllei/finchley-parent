@@ -32,4 +32,15 @@ public class AServer {
         user.put("name","demo");
         userServer.saveUser(user);
     }
+
+
+    @MessageProducer
+    @Transactional
+    public void aaa2(ClientMessageData messageData){
+        System.out.println("=====================");
+        JSONObject user = new JSONObject();
+        user.put("id",uniqueId.getNextIdByApplicationName("user"));
+        user.put("name","demo");
+        userServer.saveUser(user);
+    }
 }

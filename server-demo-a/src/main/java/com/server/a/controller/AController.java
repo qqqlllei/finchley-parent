@@ -32,8 +32,8 @@ public class AController {
     private AServer aServer;
 
 
-    @RequestMapping("/info")
-    public ResponseEntity<String> info() throws InterruptedException {
+    @RequestMapping("/info0")
+    public ResponseEntity<String> info1() throws InterruptedException {
         logger.info("AController===================info======================");
         ClientMessageData clientMessageData = new ClientMessageData();
         clientMessageData.setMessageTopic("SAVE_USER");
@@ -42,6 +42,20 @@ public class AController {
         messageBody.put("age","29");
         clientMessageData.setMessageBody(messageBody.toJSONString());
         aServer.aaa(clientMessageData);
+        return ResponseEntity.ok("ok");
+    }
+
+
+    @RequestMapping("/info1")
+    public ResponseEntity<String> info2() throws InterruptedException {
+        logger.info("AController===================info======================");
+        ClientMessageData clientMessageData = new ClientMessageData();
+        clientMessageData.setMessageTopic("SAVE_USER");
+        JSONObject messageBody = new JSONObject();
+        messageBody.put("name","李雷");
+        messageBody.put("age","29");
+        clientMessageData.setMessageBody(messageBody.toJSONString());
+        aServer.aaa2(clientMessageData);
         return ResponseEntity.ok("ok");
     }
 

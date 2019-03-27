@@ -11,6 +11,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Random;
 
 /**
  * Created by 李雷 on 2019/1/15.
@@ -23,9 +24,8 @@ public class OperationApplication {
     public static void main(String[] args) {
 //        SpringApplication.run(OperationApplication.class,args);
 
-
-        for(int i=0;i<10 ;i++){
-            new Thread(() -> sendMessage()).start();
+        for(int i= 0 ;i<10 ;i++){
+            new Thread(() -> sendMessage(new Random().nextInt(2))).start();
         }
 
 
@@ -34,11 +34,11 @@ public class OperationApplication {
 
     }
 
-    public static void sendMessage(){
+    public static void sendMessage(int i){
         while (true){
             try {
-                doGet("http://localhost:8081/demo/info");
-                Thread.sleep(200L);
+                doGet("http://localhost:8081/demo/info1");
+                Thread.sleep(20L);
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (InterruptedException e) {
