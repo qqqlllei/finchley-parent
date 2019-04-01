@@ -12,6 +12,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Random;
+import java.util.UUID;
 
 /**
  * Created by 李雷 on 2019/1/15.
@@ -25,7 +26,13 @@ public class OperationApplication {
 //        SpringApplication.run(OperationApplication.class,args);
 
         for(int i= 0 ;i<10 ;i++){
-            new Thread(() -> sendMessage(new Random().nextInt(2))).start();
+            int j =  new Random().nextInt(2);
+            if(j == 0){
+                new Thread(() -> sendMessage("http://10.33.80.101:8082/demo/info1")).start();
+            }else{
+                new Thread(() -> sendMessage("http://10.33.80.114:8082/demo/info1")).start();
+            }
+
         }
 
 
@@ -34,11 +41,11 @@ public class OperationApplication {
 
     }
 
-    public static void sendMessage(int i){
+    public static void sendMessage(String url){
         while (true){
             try {
-                doGet("http://localhost:8081/demo/info1");
-                Thread.sleep(20L);
+                doGet(url);
+                Thread.sleep(2000L);
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (InterruptedException e) {

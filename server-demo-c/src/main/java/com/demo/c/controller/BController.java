@@ -1,6 +1,9 @@
 package com.demo.c.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.demo.c.service.BService;
+import com.demo.c.service.UserServer;
+import com.demo.c.util.UniqueId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +25,13 @@ public class BController {
     private String aaa;
 
 
+    @Autowired
+    private UserServer userServer;
+
+    @Autowired
+    private UniqueId uniqueId;
+
+
 
 
     @Autowired
@@ -30,8 +40,10 @@ public class BController {
     @RequestMapping("/info")
     public ResponseEntity<String> info(){
 
-        logger.info("BController===================info new======================");
-        bService.info();
+        JSONObject user = new JSONObject();
+        user.put("id",uniqueId.getNextIdByApplicationName("user"));
+        user.put("name","demo");
+        userServer.saveUser(user);
         return ResponseEntity.ok("ok2"+aaa);
 
     }

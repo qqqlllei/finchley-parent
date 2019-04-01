@@ -1,55 +1,60 @@
 version: "3"
 services:
   demo-a:
-    image: 10.0.8.189:5000/system/server-demo-a-1.0.0
+    image: 10.0.8.189/demo/demo-a:latest
+    container_name: demo_a
+    restart: always
     ports:
       - "8082:8082"
     environment:
-      - "SERVER_PORT=8082"
-    depends_on:
-      - nacos
+      - SERVER_PORT=8082
+      - SPRING_CLOUD_NACOS_DISCOVERY_IP=10.33.80.101
+      - SPRING_DATASOURCE_URL=jdbc:mysql://10.33.80.101:3306/demo_a?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&autoReconnect=true&failOverReadOnly=false&useSSL=false
     volumes:
-      - "/root/logs/demo-a:/logs/demo-a"
-      - "/etc/localtime:/etc/localtime:ro"
-    networks:
-      - dev2
+      - /root/logs/demo-a:/logs/demo-a
+      - /etc/localtime:/etc/localtime:ro
 
   demo-b:
-    image: 10.0.8.189:5000/system/server-demo-b-1.0.1
+    image: 10.0.8.189/demo/demo-b:latest
+    container_name: demo_b
+    restart: always
     ports:
       - "8083:8083"
     environment:
-      - "SERVER_PORT=8083"
-    depends_on:
-      - nacos
+      - SERVER_PORT=8083
+      - SPRING_CLOUD_NACOS_DISCOVERY_IP=10.33.80.101
+      - SPRING_DATASOURCE_URL=jdbc:mysql://10.33.80.101:3306/demo_b?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&autoReconnect=true&failOverReadOnly=false&useSSL=false
     volumes:
-      - "/root/logs/demo-b:/logs/demo-b"
-      - "/etc/localtime:/etc/localtime:ro"
-    networks:
-      - dev2
+      - /root/logs/demo-b:/logs/demo-b
+      - /etc/localtime:/etc/localtime:ro
 
-  gateway-server:
-    image: 10.0.8.189:5000/system/gateway-server-1.0.1
+  demo-c:
+    image: 10.0.8.189/demo/demo-c:latest
+    container_name: demo_c
+    restart: always
     ports:
-      - "8081:8081"
+      - "8084:8084"
     environment:
-      - "SERVER_PORT=8081"
-    depends_on:
-      - nacos
+      - SERVER_PORT=8084
+      - SPRING_CLOUD_NACOS_DISCOVERY_IP=10.33.80.101
+      - SPRING_DATASOURCE_URL=jdbc:mysql://10.33.80.101:3306/demo_c?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&autoReconnect=true&failOverReadOnly=false&useSSL=false
     volumes:
-      - "/root/logs/gateway-server:/logs/gateway-server"
-      - "/etc/localtime:/etc/localtime:ro"
-    networks:
-      - dev2
-  nacos:
-    image: nacos/nacos-server:latest
-    ports:
-      - "8848:8848"
-    environment:
-      - "MODE=standalone"
-    volumes:
-      - "/etc/localtime:/etc/localtime:ro"
+      - /root/logs/demo-c:/logs/demo-c
+      - /etc/localtime:/etc/localtime:ro
 
-networks:
-  dev2:
+
+  message:
+    image: 10.0.8.189/demo/message-server:latest
+    restart: always
+    container_name: message
+    ports:
+      - "8085:8085"
+    environment:
+      - SERVER_PORT=8085
+      - SPRING_CLOUD_NACOS_DISCOVERY_IP=10.33.80.101
+      - SHARDING_JDBC_DATASOURCE_DS0_URL=jdbc:mysql://10.33.80.101:3306/reliable_message0?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&autoReconnect=true&failOverReadOnly=false&useSSL=false
+      - SHARDING_JDBC_DATASOURCE_DS1_URL=jdbc:mysql://10.33.80.101:3306/reliable_message1?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&autoReconnect=true&failOverReadOnly=false&useSSL=false
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+
 
