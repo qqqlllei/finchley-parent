@@ -1,10 +1,10 @@
 package com.server.a.server;
 
 import com.alibaba.fastjson.JSONObject;
-
+import com.alibaba.fescar.spring.annotation.GlobalTransactional;
 import com.reliable.message.client.annotation.MessageProducer;
 import com.reliable.message.common.domain.ClientMessageData;
-import com.reliable.message.common.enums.DelayLevelEnum;
+import com.server.a.Fegin.BServerApi;
 import com.server.a.util.UniqueId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,10 +20,13 @@ public class AServer {
     private UserServer userServer;
 
     @Autowired
+    private BServerApi bServerApi;
+
+    @Autowired
     private UniqueId uniqueId;
 
 
-    @MessageProducer(delayLevel = DelayLevelEnum.ONE)
+    @MessageProducer
     @Transactional
     public void aaa(ClientMessageData messageData){
         System.out.println("=====================");
@@ -34,13 +37,9 @@ public class AServer {
     }
 
 
-    @MessageProducer
-    @Transactional
-    public void aaa2(ClientMessageData messageData){
-        System.out.println("=====================");
-        JSONObject user = new JSONObject();
-        user.put("id",uniqueId.getNextIdByApplicationName("user"));
-        user.put("name","demo");
+    @GlobalTransactional
+    public void save(JSONObject user){
         userServer.saveUser(user);
+        bServerApi.save(user);
     }
 }

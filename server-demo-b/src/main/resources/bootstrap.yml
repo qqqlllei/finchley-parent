@@ -4,11 +4,11 @@ spring:
   cloud:
     nacos:
       discovery:
-        server-addr: 10.0.8.189:8848
+        server-addr: localhost:8848
         metadata: {"serverList":["1","2","3"]}
         ip: 10.33.50.40
       config:
-        server-addr: 10.0.8.189:8848
+        server-addr: localhost:8848
         file-extension: yml
 
     inetutils:

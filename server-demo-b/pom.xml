@@ -50,6 +50,12 @@
 
 
         <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-fescar</artifactId>
+        </dependency>
+
+
+        <dependency>
             <groupId>com.luhuiguo</groupId>
             <artifactId>fastdfs-spring-boot-starter</artifactId>
             <version>0.2.0</version>
@@ -87,7 +93,7 @@
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>druid</artifactId>
-            <version>1.0.13</version>
+            <version>1.1.12</version>
         </dependency>
 
     </dependencies>
