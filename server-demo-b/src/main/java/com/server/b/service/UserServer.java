@@ -17,9 +17,8 @@ public class UserServer {
     private UserMapper userMapper;
 
 
-    @Transactional
     public void saveUser(JSONObject user){
         this.userMapper.saveUser(user);
-        int i=1/0;
+//        int i=1/0;
     }
 }
