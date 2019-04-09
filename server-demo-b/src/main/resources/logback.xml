@@ -17,8 +17,12 @@
             <fileNamePattern>${BASE_DIR}/${APP}/info.%d{_yyyy-MM-dd}</fileNamePattern>
         </rollingPolicy>
     </appender>
-    <root level="INFO">
+    <root level="ERROR">
         <appender-ref ref="STDOUT_C"/>
         <appender-ref ref="INFO_LOG"/>
     </root>
+
+    <!--<logger name="com.alibaba.fescar" level="DEBUG" additivity="false">-->
+        <!--<appender-ref ref="STDOUT_C"/>-->
+    <!--</logger>-->
 </configuration>

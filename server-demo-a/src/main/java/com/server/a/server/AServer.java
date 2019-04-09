@@ -37,9 +37,11 @@ public class AServer {
     }
 
 
-    @GlobalTransactional
+    @GlobalTransactional(timeoutMills = 6000000)
     public void save(JSONObject user){
         userServer.saveUser(user);
         bServerApi.save(user);
+
+        System.out.println(123);
     }
 }
