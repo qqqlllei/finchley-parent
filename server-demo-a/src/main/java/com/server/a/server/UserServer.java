@@ -1,6 +1,7 @@
 package com.server.a.server;
 
 import com.alibaba.fastjson.JSONObject;
+import com.reliable.message.client.annotation.MessageProducer;
 import com.server.a.dao.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

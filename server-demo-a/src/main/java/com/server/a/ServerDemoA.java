@@ -7,10 +7,8 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 
 @SpringBootApplication
-@EnableDiscoveryClient
-@EnableFeignClients(basePackages =  {"com.reliable.message.client.feign","com.server.a.Fegin"})
 @EnableCaching
-@MapperScan({"com.reliable.message.client.dao","com.server.a.dao"})
+@MapperScan({"com.server.a.dao"})
 public class ServerDemoA {
 	public static void main(String[] args) {
 		SpringApplication.run(ServerDemoA.class, args);

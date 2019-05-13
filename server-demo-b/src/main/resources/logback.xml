@@ -17,7 +17,7 @@
             <fileNamePattern>${BASE_DIR}/${APP}/info.%d{_yyyy-MM-dd}</fileNamePattern>
         </rollingPolicy>
     </appender>
-    <root level="ERROR">
+    <root level="INFO">
         <appender-ref ref="STDOUT_C"/>
         <appender-ref ref="INFO_LOG"/>
     </root>

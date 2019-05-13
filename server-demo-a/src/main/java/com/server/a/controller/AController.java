@@ -2,7 +2,7 @@ package com.server.a.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.reliable.message.common.domain.ClientMessageData;
-import com.server.a.Fegin.BServerApi;
+//import com.server.a.Fegin.BServerApi;
 import com.server.a.server.AServer;
 import com.server.a.util.UniqueId;
 import org.slf4j.Logger;
@@ -47,12 +47,12 @@ public class AController {
     }
 
 
-    @RequestMapping("/save")
-    public void save(){
-        JSONObject user = new JSONObject();
-        user.put("id",uniqueId.getNextIdByApplicationName("user"));
-        user.put("name","demo");
-        aServer.save(user);
-    }
+//    @RequestMapping("/save")
+//    public void save(){
+//        JSONObject user = new JSONObject();
+//        user.put("id",uniqueId.getNextIdByApplicationName("user"));
+//        user.put("name","demo");
+//        aServer.save(user);
+//    }
 
 }

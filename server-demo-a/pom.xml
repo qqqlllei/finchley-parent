@@ -43,33 +43,33 @@
         </dependency>
 
 
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.springframework.cloud</groupId>-->
+            <!--<artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>-->
+        <!--</dependency>-->
 
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.springframework.cloud</groupId>-->
+            <!--<artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>-->
+        <!--</dependency>-->
 
 
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-alibaba-fescar</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.alibaba.fescar</groupId>
-                    <artifactId>fescar-spring</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.springframework.cloud</groupId>-->
+            <!--<artifactId>spring-cloud-starter-alibaba-fescar</artifactId>-->
+            <!--<exclusions>-->
+                <!--<exclusion>-->
+                    <!--<groupId>com.alibaba.fescar</groupId>-->
+                    <!--<artifactId>fescar-spring</artifactId>-->
+                <!--</exclusion>-->
+            <!--</exclusions>-->
+        <!--</dependency>-->
 
-        <dependency>
-            <groupId>com.alibaba.fescar</groupId>
-            <artifactId>fescar-spring</artifactId>
-            <version>0.4.1</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>com.alibaba.fescar</groupId>-->
+            <!--<artifactId>fescar-spring</artifactId>-->
+            <!--<version>0.4.2</version>-->
+        <!--</dependency>-->
 
         <!--<dependency>-->
             <!--<groupId>spring.cloud.finchley</groupId>-->

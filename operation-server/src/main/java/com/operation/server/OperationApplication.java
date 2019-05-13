@@ -28,16 +28,12 @@ public class OperationApplication {
         for(int i= 0 ;i<10 ;i++){
             int j =  new Random().nextInt(2);
             if(j == 0){
-                new Thread(() -> sendMessage("http://10.33.80.101:8082/demo/info1")).start();
+                new Thread(() -> sendMessage("http://127.0.0.1:8081/demo/info")).start();
             }else{
-                new Thread(() -> sendMessage("http://10.33.80.114:8082/demo/info1")).start();
+                new Thread(() -> sendMessage("http://127.0.0.1:8081/demo/info")).start();
             }
 
         }
-
-
-
-
 
     }
 
@@ -45,7 +41,7 @@ public class OperationApplication {
         while (true){
             try {
                 doGet(url);
-                Thread.sleep(2000L);
+                Thread.sleep(20L);
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (InterruptedException e) {
