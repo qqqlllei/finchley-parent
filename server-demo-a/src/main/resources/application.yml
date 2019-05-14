@@ -1,16 +1,13 @@
 logging:
   config: classpath:logback.xml
 server:
-  port: 8081
-
-netty:
-  server:
-    ip: 127.0.0.1
-    port: 9999
+  port: 8082
 info:
   version: @version@
   isGray: true
 spring:
+  application:
+    name: demo-a
   cloud:
     nacos:
       discovery:
