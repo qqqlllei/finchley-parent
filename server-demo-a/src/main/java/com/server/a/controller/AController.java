@@ -1,7 +1,7 @@
 package com.server.a.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.reliable.message.common.domain.ClientMessageData;
+import com.reliable.message.common.domain.ReliableMessage;
 import com.server.a.server.AServer;
 import com.server.a.util.UniqueId;
 import org.slf4j.Logger;
@@ -32,7 +32,7 @@ public class AController {
     @RequestMapping("/info")
     public ResponseEntity<String> info() throws InterruptedException {
         logger.info("AController===================info======================");
-        ClientMessageData clientMessageData = new ClientMessageData();
+        ReliableMessage clientMessageData = new ReliableMessage();
         clientMessageData.setMessageTopic("SAVE_USER");
         JSONObject messageBody = new JSONObject();
         messageBody.put("name","李雷");
@@ -41,6 +41,37 @@ public class AController {
         aServer.aaa(clientMessageData);
         return ResponseEntity.ok("ok");
     }
+
+
+
+    @RequestMapping("/mail")
+    public ResponseEntity<String> mail() throws InterruptedException {
+        logger.info("AController===================info======================");
+        ReliableMessage clientMessageData = new ReliableMessage();
+        clientMessageData.setMessageTopic("SAVE_USER");
+        JSONObject messageBody = new JSONObject();
+        messageBody.put("name","李雷1");
+        messageBody.put("age","30");
+        clientMessageData.setMessageBody(messageBody.toJSONString());
+        aServer.bbb(clientMessageData);
+        return ResponseEntity.ok("ok");
+    }
+
+
+    @RequestMapping("/message")
+    public ResponseEntity<String> message() throws InterruptedException {
+        logger.info("AController===================message======================");
+        ReliableMessage clientMessageData = new ReliableMessage();
+        clientMessageData.setMessageTopic("UPDATE_USER");
+        JSONObject messageBody = new JSONObject();
+        messageBody.put("name","李雷1");
+        messageBody.put("age","30");
+        clientMessageData.setMessageBody(messageBody.toJSONString());
+        aServer.ccc(clientMessageData);
+        return ResponseEntity.ok("ok");
+    }
+
+
 
 
 //    @RequestMapping("/save")

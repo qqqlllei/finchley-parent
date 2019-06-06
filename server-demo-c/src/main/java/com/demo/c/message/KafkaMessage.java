@@ -1,7 +1,6 @@
 package com.demo.c.message;
 
 import com.alibaba.fastjson.JSONObject;
-import com.reliable.message.common.domain.ServerMessageData;
 import com.reliable.message.common.dto.MessageData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;

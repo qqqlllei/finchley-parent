@@ -1,10 +1,9 @@
 package com.demo.c.message;
 
 import com.alibaba.fastjson.JSONObject;
-import com.reliable.message.client.annotation.MessageConsumer;
-import com.reliable.message.common.domain.ServerMessageData;
 import com.demo.c.service.UserServer;
 import com.demo.c.util.UniqueId;
+import com.reliable.message.client.annotation.MessageConsumer;
 import com.reliable.message.common.dto.MessageData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

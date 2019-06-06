@@ -3,7 +3,6 @@ package com.server.b.message;
 import com.alibaba.fastjson.JSONObject;
 
 import com.reliable.message.client.annotation.MessageConsumer;
-import com.reliable.message.common.domain.ServerMessageData;
 import com.reliable.message.common.dto.MessageData;
 import com.server.b.service.UserServer;
 import com.server.b.util.UniqueId;
@@ -34,4 +33,7 @@ public class MessageServer {
         userServer.saveUser(user);
         System.out.println("=========consumer============"+JSONObject.toJSONString(serverMessageData));
     }
+
+
+
 }
